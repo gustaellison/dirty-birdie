@@ -9,15 +9,18 @@
                 <img src="{{ bird.image }}" >
             </div>
             <div class="card-content">
-                <span class="card-title activator grey-text text-darken-4">{{ bird.species }}<i class="material-icons right">More</i></span>
+                <span class="card-title activator grey-text text-darken-4">{{ bird.species }}</span>
                 <p>Location: {{ bird.location }}</p>
                 <p>Habitat: {{ bird.habitat }}</p>
                 <p>{{bird.description}}</p>
             </div>
-            <div class="card-reveal">
-                <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+            <div class="card-action">
+                <a href="{% url 'bird_update' bird.id %}">Edit</a>
+                <a href="{% url 'bird_delete' bird.id %}">Delete</a>
             </div>
         </div>
+        <a href="{% url 'index' %}"> &#8592 Back to All Birds</a>
+
     
     
 

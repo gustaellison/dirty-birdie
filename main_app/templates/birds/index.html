@@ -6,7 +6,7 @@
 <div class="row">
         {% for bird in birds %}
         <a href="{% url 'detail' bird.id %}">
-        <div class="card large col s6">
+        <div class="card medium col s6">
             <div class="card-image waves-effect waves-block waves-light ">
                 <img src="{{ bird.image }}" >
             </div>

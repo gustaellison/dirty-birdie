@@ -17,8 +17,9 @@
                     <li><a href="/" class="left brand-logo">&nbsp;&nbsp;Dirty Birdie</a></li>
                 </ul>
                 <ul class="right">
-                    <li><a href="/about">About</a></li>
-                    <li><a href="/birds">View All My Birds</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'index' %}">View All Birds</a></li>
+                    <li><a href="{% url 'bird_create' %}">Add Bird</a></li>
                 </ul>
             </div>
         </nav>
@@ -28,7 +29,7 @@
         {% endblock %}
     </main>
     <footer class="page-footer">
-        <div class="right">All Rights Reserved, &copy; 2021 Cat Collector &nbsp;</div>
+        <div class="right">All Rights Reserved, &copy; 2024 Dirty Birdie &nbsp;</div>
     </footer>
 </body>
 
