@@ -6,19 +6,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dirty Birdie</title>
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <header class="navbar-fixed">
-        <nav>
+        <nav class="indigo">
             <div class="nav-wrapper">
                 <ul>
                     <li><a href="/" class="left brand-logo">&nbsp;&nbsp;Dirty Birdie</a></li>
                 </ul>
                 <ul class="right">
                     <li><a href="{% url 'about' %}">About</a></li>
-                    <li><a href="{% url 'index' %}">View All Birds</a></li>
+                    <li><a href="{% url 'nestingmaterials_create' %}">Add Nesting Material</a></li>
+                    <li><a href="{% url 'nestingmaterials_index' %}">All Nesting Materials</a></li>
+                    <li><a href="{% url 'index' %}">All Birds</a></li>
                     <li><a href="{% url 'bird_create' %}">Add Bird</a></li>
                 </ul>
             </div>
@@ -28,7 +34,7 @@
         {% block content %}
         {% endblock %}
     </main>
-    <footer class="page-footer">
+    <footer class="page-footer indigo">
         <div class="right">All Rights Reserved, &copy; 2024 Dirty Birdie &nbsp;</div>
     </footer>
 </body>

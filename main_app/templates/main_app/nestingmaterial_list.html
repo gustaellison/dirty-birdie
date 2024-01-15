@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>All Nesting Materials List</h1>
+
+{% for nestingmaterial in nestingmaterial_list %}
+<a href="{% url 'nestingmaterials_detail' nestingmaterial.id %}">
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">{{ nestingmaterial.name }}</span>
+            <p>Color: {{ nestingmaterial.color }}</p>
+        </div>
+    </div>
+</a>
+{% endfor %}
+
+
+
+{% endblock %}

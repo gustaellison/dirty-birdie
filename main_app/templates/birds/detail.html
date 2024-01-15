@@ -1,29 +1,131 @@
 {% extends 'base.html' %}
 {% block content %}
 
+
+
 <h1>{{ bird.species }}</h1>
 
 <div class="row">
-        <div class="card">
-            <div class="card-image waves-effect waves-block waves-light">
-                <img src="{{ bird.image }}" >
+    <div class="col s7">
+        <div class="card ">
+            <div class="card-image ">
+                <img src="{{ bird.image }}">
             </div>
             <div class="card-content">
-                <span class="card-title activator grey-text text-darken-4">{{ bird.species }}</span>
-                <p>Location: {{ bird.location }}</p>
+                <span class="card-title">{{ bird.species }}</span>
                 <p>Habitat: {{ bird.habitat }}</p>
-                <p>{{bird.description}}</p>
+                <p>Location: {{ bird.location }}</p>
+
+                <p>Description: {{ bird.description |linebreaks }}</p>
             </div>
             <div class="card-action">
                 <a href="{% url 'bird_update' bird.id %}">Edit</a>
                 <a href="{% url 'bird_delete' bird.id %}">Delete</a>
             </div>
         </div>
-        <a href="{% url 'index' %}"> &#8592 Back to All Birds</a>
-
-    
-    
-
+    </div>
+    <!-- New Markup Below -->
+    <div class="col s5">
+        <!-- New Markup Below -->
+        <form action="{% url 'add_feeding' bird.id %}" method="POST">
+            {% csrf_token %}
+            <!-- Render the inputs -->
+            {{ feeding_form.as_p }}
+            <input type="submit" class="btn" value="Add Feeding">
+        </form>
+        <!-- New Markup Above -->
+        <br>
+        {% if bird.fed_for_today %}
+        <div class="card-panel teal-text center-align">{{bird.species}} has been fed all meals for today</div>
+        {% else %}
+        <div class="card-panel red-text center-align">{{bird.species}} might be hungry</div>
+        {% endif %}
+        <table class="striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Meal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for feeding in bird.feeding_set.all %}
+                <tr>
+                    <td>{{feeding.date}}</td>
+                    <td>{{feeding.get_meal_display}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- New Markup Above -->
 </div>
+<div>
+</div>
+<hr>
+
+<!-- This is all new markup to be added just above the <script> tag -->
+    <div class="row">
+        <div class="col s6">
+            <h3>{{ bird.species }}'s Nesting Materials</h3>
+            {% if bird.nestingmaterials.count %}
+            {% for nestingmaterial in bird.nestingmaterials.all %}
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">
+                        A <span style="color: {{ nestingmaterial.color }}">{{ nestingmaterial.color }}</span> {{ nestingmaterial.name }}
+                    </span>
+                </div>
+                <div class="card-action">
+                    <form action="{% url 'unassoc_nestingmaterial' bird.id nestingmaterial.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="waves-effect waves-light btn-small">REMOVE
+                            <i class="material-icons right">delete</i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <h5>No Nesting Materials</h5>
+            {% endif %}
+        </div>
+        <!-- Available toys will come after this line -->
+        <div class="col s6">
+            <h3>Available Nesting Materials</h3>
+            {% if nestingmaterials.count %}
+            {% for nestingmaterial in nestingmaterials.all %}
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">
+                        A <span style="color: {{ nestingmaterial.color }}">{{ nestingmaterial.color }}</span> {{ nestingmaterial.name }}
+                    </span>
+                </div>
+                <div class="card-action">
+                    <form action="{% url 'assoc_nestingmaterial' bird.id nestingmaterial.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">Add</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <h5>{{bird.species}} Already Has All Nesting Materials Available</h5>
+            {% endif %}
+        </div>
+    </div>
+
+<script>
+    const dateEl = document.getElementById('id_date');
+    // M is Materialize's global variable
+    M.Datepicker.init(dateEl, {
+        format: 'yyyy-mm-dd',
+        defaultDate: new Date(),
+        setDefaultDate: true,
+        autoClose: true
+    });
+
+    const selectEl = document.getElementById('id_meal');
+    M.FormSelect.init(selectEl);
+</script>
 
 {% endblock %}
